@@ -11,7 +11,9 @@ const sb = async (path, opt = {}) => {
 }
 const hash = (p, s) => crypto.scryptSync(p, s, 32).toString('hex')
 const byEmail = async e => (await sb('users?select=*&email=eq.' + encodeURIComponent(e) + '&limit=1'))[0]
-const app = express(); app.use(express.json()); app.use(express.static('public'))
+const app = express(); app.use(express.json()); const path = require('path'), PUB = path.join(__dirname, 'public')
+app.use(express.static(PUB))
+;[['/', 'index.html'], ['/login', 'login.html'], ['/dashboard', 'dashboard.html'], ['/connect', 'connect.html']].forEach(([u, f]) => app.get(u, (q, r) => r.sendFile(path.join(PUB, f))))
 const sign = u => { const b = Buffer.from(JSON.stringify({ id: u.id, name: u.name, email: u.email, exp: Date.now() + 7 * 864e5 })).toString('base64url'); return b + '.' + crypto.createHmac('sha256', SECRET).update(b).digest('base64url') }
 const auth = (req, res, next) => {
   try { const [b, s] = (req.headers.authorization || '').replace('Bearer ', '').split('.')
