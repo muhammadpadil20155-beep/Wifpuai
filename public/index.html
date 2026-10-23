@@ -1,0 +1,17 @@
+<!doctype html><html lang="id"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>SecretLy – Bot WhatsApp Store & MD</title><link rel="icon" href="logo.jpg"><link rel="stylesheet" href="app.css"></head><body>
+<main>
+<section class="hero"><img src="logo.jpg" alt="Logo SecretLy"><h1>Bangun bot WhatsApp tanpa ribet.</h1>
+<p class="lead">SecretLy punya ratusan fitur: store, JPM, push kontak, manajemen grup, dan sewa bot. Hubungkan nomor kamu dan nyalakan dari dashboard.</p>
+<a class="btn blue" id="start" href="login.html">Mulai Sekarang</a></section>
+<h2 id="why">Kenapa harus SecretLy?</h2><p class="sub">Bot serba bisa dengan fitur lengkap, performa stabil, dan terus bertambah.</p>
+<div class="panel"><div class="ph"><span><i class="dot" id="dot"></i>Aktivitas server</span><span class="live" id="live">LIVE</span></div>
+<div class="grid"><div class="cell"><small>Sesi bot online</small><b id="on">–</b></div><div class="cell"><small>Total sesi</small><b id="ses">–</b></div>
+<div class="cell"><small>Command hari ini</small><b id="today">–</b></div><div class="cell"><small>Total command</small><b id="total">–</b></div>
+<div class="cell"><small>Total fitur</small><b id="feat">–</b></div><div class="cell"><small>Grup menyewa</small><b id="rent">–</b></div></div>
+<div class="chips"><small style="color:var(--mute);font-weight:600;width:100%">Terpakai hari ini</small><span id="empty">Memuat…</span></div></div>
+</main>
+<script src="app.js"></script><script>
+shell(); if (tk()) $('#start').href = 'dashboard.html'
+async function load(){try{const s=await api('/stats');$('#dot').classList.add('on');$('#on').textContent=s.online;$('#ses').textContent=s.sessions;$('#today').textContent=fmt(s.today);$('#total').textContent=fmt(s.total);$('#feat').textContent=s.features;$('#rent').textContent=s.rentedGroups
+$('.chips').innerHTML='<small style="color:var(--mute);font-weight:600;width:100%">Terpakai hari ini</small>'+(s.top.map(([c,n])=>`<span>[ .${c} ${n}× ]</span>`).join('')||'<span>Belum ada</span>')}catch{$('#dot').classList.remove('on');$('#live').textContent='OFFLINE';$('#empty')&&($('#empty').textContent='Bot belum terhubung ke web')}}
+load();setInterval(load,10000)</script></body></html>

@@ -1,0 +1,11 @@
+<!doctype html><html lang="id"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>Masuk – SecretLy</title><link rel="icon" href="logo.jpg"><link rel="stylesheet" href="app.css"></head><body>
+<main><h2>Masuk untuk mulai</h2><p class="sub">Login atau daftar dulu agar bisa menghubungkan bot.</p>
+<div class="card"><div class="tabs"><button class="on" id="t1">Masuk</button><button id="t2">Daftar</button></div>
+<div id="nm" hidden><label for="name">Nama</label><input id="name" autocomplete="name"></div>
+<label for="email">Email</label><input id="email" type="email" autocomplete="email">
+<label for="pw">Password</label><input id="pw" type="password" autocomplete="current-password" placeholder="Minimal 6 karakter">
+<div class="row"><button class="btn blue" id="go">Masuk</button></div><div class="msg" id="msg" role="alert"></div></div></main>
+<script src="app.js"></script><script>
+shell();let reg=false;const sw=r=>{reg=r;$('#nm').hidden=!r;$('#go').textContent=r?'Buat akun':'Masuk';$('#t1').classList.toggle('on',!r);$('#t2').classList.toggle('on',r)}
+$('#t1').onclick=()=>sw(false);$('#t2').onclick=()=>sw(true)
+$('#go').onclick=async()=>{const b=$('#go');b.disabled=true;$('#msg').textContent='';try{const j=await api(reg?'/register':'/login',{name:$('#name').value,email:$('#email').value,password:$('#pw').value});localStorage.setItem('sl_token',j.token);localStorage.setItem('sl_name',j.name);location.href='dashboard.html'}catch(e){$('#msg').className='msg e';$('#msg').textContent=e.message;b.disabled=false}}</script></body></html>
